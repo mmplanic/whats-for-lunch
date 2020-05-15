@@ -1,0 +1,7 @@
+.form-border{
+    border: 3px solid blue;
+    border-radius: .4rem;
+}
+.h-100vh{
+    height: 100vh;
+}
