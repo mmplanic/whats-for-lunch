@@ -169,7 +169,12 @@ export default function Home({history}){
         getOrderItemsByOrderId(el.id).then(res=>{
             const fileType = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
             const fileExtension = '.xlsx';
-            const ws = XLSX.utils.json_to_sheet(res.data.data);
+            const ws = XLSX.utils.json_to_sheet(
+                // ()=>{
+                //     let tableObject = {}
+                // }
+                
+                res.data.data);
             const wb = { Sheets: { 'data': ws }, SheetNames: ['data'] };
             const excelBuffer = XLSX.write(wb, { bookType: 'xlsx', type: 'array' });
             const data = new Blob([excelBuffer], {type: fileType});
