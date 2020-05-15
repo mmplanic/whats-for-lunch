@@ -2,7 +2,7 @@ import axios from 'axios';
 
 
 const baseURL = "https://sheltered-hamlet-56226.herokuapp.com/";
-const baseURLmain = "http://itbootcamp.westeurope.cloudapp.azure.com/";
+// const baseURLmain = "http://itbootcamp.westeurope.cloudapp.azure.com/";
 
 
 //Restaurants
@@ -43,6 +43,6 @@ export const getMealsFromRestaurant = restaurantId => axios.get(baseURL+"meal?av
 
 export const createOrderItem = orderItem => axios.post(baseURL+"order-item", orderItem);
 
-export const getOrderItemsByOrderId = orderId => axios.get(baseURL+"order-item?$limit=999&orderId[$in]=" + orderId ); 
+export const getOrderItemsByOrderId = orderId => axios.get(baseURL+"order-item?$limit=999&orderId[$in]=" + orderId ); // query for exact id is not working, this shoud be changed
 
 export const getOrderItems = (skip, limit) => axios.get(baseURL+"order-item?" + "$skip="+skip + "&$limit="+limit);

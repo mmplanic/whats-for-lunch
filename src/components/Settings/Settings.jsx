@@ -1,13 +1,14 @@
 import React from 'react'
-import { Container, Navbar, Card, Button } from 'react-bootstrap';
+import { Container, Card, Button } from 'react-bootstrap';
 import logo from './img/logo-placeholder.png';
 import ImageUploader from './ImageUploader/ImageUploader';
+import NavBar from '../../customControls/NavBar/NavBar';
 
 export default function Settings({history}){
 
 
     return(<Container>
-                <Navbar history={history} />
+                <NavBar history={history} />
 
                 <Card>
                     <Card.Header>Settings</Card.Header>
@@ -16,7 +17,7 @@ export default function Settings({history}){
                     <Button>Upload Image</Button>
                     </Card.Body>
                 </Card>
-                <form enctype="multipart/form-data" action="/upload/image" method="post">
+                <form encType="multipart/form-data" action="/upload/image" method="post">
                     <input id="image-file" type="file" />
                 </form>
 

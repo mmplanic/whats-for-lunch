@@ -104,7 +104,6 @@ export default function Statistics({history}){
             });
             let labels = [];
             let data = [];
-            console.log(mapOfUserSpend);
             Object.entries(mapOfUserSpend).forEach((user)=>{
                 labels.push(user[0]);
                 data.push(user[1]);

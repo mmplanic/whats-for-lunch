@@ -1,5 +1,5 @@
 import React,{useEffect, useState} from 'react'
-import {Button, Container, Card} from 'react-bootstrap'
+import {Button, Container, Card, Form} from 'react-bootstrap'
 import { getPoll, getVote, updateVote, endPoll } from '../../services/api.service';
 import { appStorage } from '../../services/appStorage.service';
 import NavBar from '../../customControls/NavBar/NavBar';
@@ -163,7 +163,28 @@ export default function Poll(props){
                                 <Button onClick={confirmVotes} style={{width:"60%"}} className="mt-3">Submit</Button>
                                 </div>)
                             
-                        :   <><input type="text" name="username" placeholder='Enter user name' className="form-control" onChange={handleInput}/> <Button onClick={confirmUser}>OK</Button></>
+                        :   <div className="d-flex h-100vh justify-content-center align-items-center align-middle">
+                                            <Card style={{minWidth:"300px",width:"50%"}}>
+                                                <Card.Header>Enter your name</Card.Header>
+                                                <Card.Body>
+                                                    <Form onSubmit={confirmUser} >
+                                                        
+                                                        <Form.Group controlId="formUser">
+                                                            <Form.Label>User name</Form.Label>
+                                                            <Form.Control type="username" name="username" placeholder="User name" onChange={handleInput} required />
+
+                                                        </Form.Group>
+
+
+
+                                                        <Button variant="primary" type="submit" >
+                                                            Submit
+                                                        </Button>
+                                                    </Form>
+                                                </Card.Body>
+                                            </Card>
+                                                        
+                        </div>
 
                             
                 ): <label>Link is not valid or requested poll is closed</label>}

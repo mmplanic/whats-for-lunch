@@ -1,6 +1,6 @@
 
 import React,{useEffect, useState} from 'react'
-import {Container, Button, Row, Col, FormGroup, FormControl, Card, Modal} from 'react-bootstrap';
+import {Container, Button, FormGroup, FormControl, Card, Modal, Form} from 'react-bootstrap';
 import { getOrder, getRestaurantByID, getMealsFromRestaurant, createOrderItem } from '../../services/api.service';
 import { appStorage } from '../../services/appStorage.service';
 import NavBar from '../../customControls/NavBar/NavBar';
@@ -15,8 +15,8 @@ let mealCount = 1;
 
 export default function Order(props){
     const [restaurantName, setRestaurantName] = useState("");
-    const [user, setUser] = useState("");
-    const [orderId, setOrderId] = useState("");
+    const [user, setUser] = useState(null);
+    const [orderId, setOrderId] = useState(null);
 
     const [validLink, setValidLink] = useState(true);
 
@@ -48,7 +48,6 @@ export default function Order(props){
                     });
 
                     getMealsFromRestaurant(res.data.restaurantId).then(res2=>{
-                        console.log(res2.data.data);
                         setMeals(res2.data.data);
                     });
                     
@@ -128,7 +127,7 @@ export default function Order(props){
     const confirmUser = ()=>{
         appStorage.setUser(username);
         setUser(appStorage.getUser());
-        //setPollId(appStorage.getPollId(appStorage.getUser(),Number(props.match.params.id)));
+        setOrderId(appStorage.getOrderId(appStorage.getUser(),Number(props.match.params.id)));
     }
 
     const customSort = (arr)=>{  // sort array by title
@@ -175,7 +174,8 @@ export default function Order(props){
             allPromises.push(createOrderItem(orderItem));
         });
         Promise.all(allPromises).then(()=>{
-            //redirket il stavec
+            appStorage.setOrderId(user, Number(props.match.params.id));
+            setOrderId(appStorage.getOrderId(user, Number(props.match.params.id)));
         });
     }
 
@@ -188,7 +188,7 @@ export default function Order(props){
 
                 user?
 
-                orderId?(<><label>{user} Vec ste glasali</label></>)
+                orderId?(<><label>{user} Vec ste porucili</label></>)
                             :(<>
                             <Modal show={showModal} 
                             animation={false}
@@ -285,10 +285,31 @@ export default function Order(props){
                     </div>
                 </>)
                         
-                    :   <><input type="text" name="username" placeholder='Enter user name' className="form-control" onChange={handleInput}/> <Button onClick={confirmUser}>OK</Button></>
+                    :   <div className="d-flex h-100vh justify-content-center align-items-center align-middle">
+                    <Card style={{minWidth:"300px",width:"50%"}}>
+                        <Card.Header>Enter your name</Card.Header>
+                        <Card.Body>
+                            <Form onSubmit={confirmUser} >
+                                
+                                <Form.Group controlId="formUser">
+                                    <Form.Label>User name</Form.Label>
+                                    <Form.Control type="username" name="username" placeholder="User name" onChange={handleInput} required />
+
+                                </Form.Group>
+
+
+
+                                <Button variant="primary" type="submit" >
+                                    Submit
+                                </Button>
+                            </Form>
+                        </Card.Body>
+                    </Card>
+                                
+</div>
 
                         
-            ): <label>Link is not valid or requested poll is closed</label>}
+            ): <label>Link is not valid or requested order is closed</label>}
 
 
         </Container>

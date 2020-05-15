@@ -41,6 +41,8 @@ export default function Home({history}){
 
     
     useEffect(()=>{
+        let isSubscribed = true
+
         if(firstLoad){
             getPolls(appStorage.getAdmin(),"active",0, 100).then(res=>{
                 let promises = []
@@ -53,8 +55,10 @@ export default function Home({history}){
     
                 
                 Promise.all(promises).then(()=>{
+                    if(isSubscribed){
                         LoadData();
                         firstLoad = false;
+                    }
                                       
                 })
     
@@ -65,14 +69,15 @@ export default function Home({history}){
             LoadData();
         }
 
+        return () => isSubscribed = false; 
         
 
     },[currentPageActive,currentPageInactive,currentPageActiveOrd,currentPageInactiveOrd])
 
     useEffect(()=>{
-        checker = window.setTimeout(()=>pollChecker(),3000);  
+        checker = window.setInterval(()=>pollChecker(),3000);  
         return () => {
-            window.clearTimeout(checker);
+            window.clearInterval(checker);   
           };
     },[activePolls])
    
@@ -167,14 +172,15 @@ export default function Home({history}){
     
     const handleExportOrder = (el)=>{
         getOrderItemsByOrderId(el.id).then(res=>{
+            
             const fileType = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
             const fileExtension = '.xlsx';
-            const ws = XLSX.utils.json_to_sheet(
+            const ws = XLSX.utils.json_to_sheet(    // srediti tabelu
                 // ()=>{
                 //     let tableObject = {}
                 // }
-                
-                res.data.data);
+                res.data.data
+                );
             const wb = { Sheets: { 'data': ws }, SheetNames: ['data'] };
             const excelBuffer = XLSX.write(wb, { bookType: 'xlsx', type: 'array' });
             const data = new Blob([excelBuffer], {type: fileType});
@@ -251,7 +257,7 @@ export default function Home({history}){
                         
                         <Card.Header>
                             {el.label}
-                            <Button onClick={()=>{}} size="sm" variant='danger' style={{float:"right"}}>Delete</Button>
+                            <Button onClick={()=>{handleDeletePoll(el.id)}} size="sm" variant='danger' style={{float:"right"}}>Delete</Button>
                             <Button onClick={()=>{handleCreateOrder(el)}} size="sm" variant='success' style={{float:"right", marginRight:"8px"}}>Create Order</Button>
                         </Card.Header>
                         <Card.Body>

@@ -1,5 +1,5 @@
 import React,{useState, useEffect} from 'react'
-import {Container, Button, Row, Col, FormGroup, FormControl, InputGroup, Card} from 'react-bootstrap';
+import {Container, Button, FormGroup, FormControl, Card} from 'react-bootstrap';
 import { getRestaurants, createPoll, createVote } from '../../services/api.service';
 import NavBar from '../../customControls/NavBar/NavBar';
 import { appStorage } from '../../services/appStorage.service';

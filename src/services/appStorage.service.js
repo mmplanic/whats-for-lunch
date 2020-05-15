@@ -12,7 +12,7 @@ export const appStorage={
     setPollId: (user, id)=>storage.setItem(user+id+"",id),
     getPollId: (user, id)=>storage.getItem(user+id+""),
 
-    setOrderId: (user, id)=>storage.setItem("order"+user+id+"",true),
+    setOrderId: (user, id)=>storage.setItem("order"+user+id+"",id),
     getOrderId: (user, id)=>storage.getItem("order"+user+id+""),
 
 }
